@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
 
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <appender name="LOG_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
-                %green(%d{yyyy-MM-dd HH:mm:ss.SSS}) %magenta([%thread]) %blue([traceId=%X{traceId}]) %highlight(%-5level) %cyan(%logger{36}.%M) - %yellow(%msg%n)
+                %green(%d{yyyy-MM-dd HH:mm:ss.SSS}) %magenta([%thread]) %blue([traceId=%X{traceId}]) %clr(%-5level) %cyan(%logger{36}.%M) - %yellow(%msg%n)
             </pattern>
         </layout>
     </appender>
+
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.type.descriptor.sql" level="TRACE" />
 
     <springProfile name="!(dev | prod)">
         <root level="INFO">
