@@ -1,8 +1,6 @@
 package org.example.springbootlog.domain.account;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,7 @@ import lombok.Setter;
 @Entity
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NO", nullable = false)
     private Long no;
 
@@ -25,6 +24,9 @@ public class Account {
     private Long balance;
 
     public static Account empty(String name) {
-        return new Account(0L, name, 0L);
+        Account account = new Account();
+        account.setName(name);
+        account.setBalance(0L);
+        return account;
     }
 }
