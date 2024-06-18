@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.springbootlog.filter.dto.RequestLog;
+import org.example.springbootlog.filter.dto.ResponseLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -33,14 +35,23 @@ public class LoggingFilter extends OncePerRequestFilter {
             ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
+            printRequest(requestWrapper);
+
             long startTime = System.currentTimeMillis();
-            logger.info("Request URI: {}", requestWrapper.getRequestURI());
             filterChain.doFilter(requestWrapper, responseWrapper);
-            logger.info("Response Status: {}", responseWrapper.getStatus());
             long endTime = System.currentTimeMillis();
-            logger.info("Elapsed Time: {}ms", endTime - startTime);
+
+            printResponse(responseWrapper, startTime, endTime);
 
             MDC.clear();
         }
+    }
+
+    private void printRequest(ContentCachingRequestWrapper requestWrapper) {
+        logger.info(RequestLog.of(requestWrapper).toString());
+    }
+
+    private void printResponse(ContentCachingResponseWrapper responseWrapper, long startTime, long endTime) {
+        logger.info(ResponseLog.of(responseWrapper, endTime - startTime).toString());
     }
 }
