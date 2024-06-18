@@ -22,7 +22,6 @@ public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
         /** 비동기 요청 */
         if(isAsyncDispatch(request)) {
             filterChain.doFilter(request, response);
@@ -43,7 +42,5 @@ public class LoggingFilter extends OncePerRequestFilter {
 
             MDC.clear();
         }
-
     }
-
 }
