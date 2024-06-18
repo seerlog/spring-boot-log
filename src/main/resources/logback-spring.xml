@@ -10,8 +10,9 @@
         </layout>
     </appender>
 
+    <!-- p6spy 는 성능 이슈가 있으므로 개발에서만 사용해야 함 -->
     <logger name="org.hibernate.SQL" level="DEBUG" />
-    <logger name="org.hibernate.type.descriptor.sql" level="TRACE" />
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE" />
 
     <springProfile name="!(dev | prod)">
         <root level="INFO">
