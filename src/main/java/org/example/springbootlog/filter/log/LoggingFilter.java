@@ -45,14 +45,13 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterWrapped(RequestWrapper requestWrapper, ResponseWrapper responseWrapper, FilterChain filterChain)
             throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
-        printRequest(requestWrapper);
+        logRequest(requestWrapper);
 
         long startTime = System.currentTimeMillis();
         filterChain.doFilter(requestWrapper, responseWrapper);
         long endTime = System.currentTimeMillis();
 
-        printResponse(responseWrapper, startTime, endTime);
-        logResponse(responseWrapper);
+        logResponse(responseWrapper, startTime, endTime);
         responseWrapper.copyBodyToResponse();
         MDC.clear();
     }
@@ -63,8 +62,9 @@ public class LoggingFilter extends OncePerRequestFilter {
         logPayload("Request", request.getContentType(), request.getInputStream());
     }
 
-    private static void logResponse(ContentCachingResponseWrapper response) throws IOException {
+    private static void logResponse(ContentCachingResponseWrapper response, long startTime, long entTime) throws IOException {
         logPayload("Response", response.getContentType(), response.getContentInputStream());
+        logger.info("Response : elapsedTime={}ms", entTime - startTime);
     }
 
     private static void logPayload(String prefix, String contentType, InputStream inputStream) throws IOException {
