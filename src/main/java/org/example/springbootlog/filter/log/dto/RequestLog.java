@@ -1,7 +1,8 @@
-package org.example.springbootlog.filter.dto;
+package org.example.springbootlog.filter.log.dto;
 
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import lombok.Data;
-import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.example.springbootlog.filter.log.wrapper.RequestWrapper;
 
 @Data
 public class RequestLog {
@@ -12,14 +13,14 @@ public class RequestLog {
     private String requestParam;
     private String requestBody;
 
-    public static RequestLog of(ContentCachingRequestWrapper requestWrapper) {
+    public static RequestLog of(RequestWrapper requestWrapper) {
         RequestLog requestLog = new RequestLog();
         requestLog.setHttpMethod(requestWrapper.getMethod());
         requestLog.setRequestUri(requestWrapper.getRequestURI());
         requestLog.setClientIp(requestWrapper.getRemoteAddr());
         requestLog.setHeaders(requestWrapper.getHeaderNames().toString());
         requestLog.setRequestParam(requestWrapper.getParameterMap().toString());
-        requestLog.setRequestBody(new String(requestWrapper.getContentAsByteArray()));
+//        requestLog.setRequestBody(new String(requestWrapper.));
         return requestLog;
     }
 

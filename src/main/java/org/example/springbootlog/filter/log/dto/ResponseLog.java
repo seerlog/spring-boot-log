@@ -1,6 +1,7 @@
-package org.example.springbootlog.filter.dto;
+package org.example.springbootlog.filter.log.dto;
 
 import lombok.Data;
+import org.example.springbootlog.filter.log.wrapper.ResponseWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -10,7 +11,7 @@ public class ResponseLog {
     private String responseBody;
     private String elapsedTime;
 
-    public static ResponseLog of(ContentCachingResponseWrapper responseWrapper, long elapsedTime) {
+    public static ResponseLog of(ResponseWrapper responseWrapper, long elapsedTime) {
         ResponseLog responseLog = new ResponseLog();
         responseLog.setHttpStatus(HttpStatus.valueOf(responseWrapper.getStatus()));
         responseLog.setResponseBody(new String(responseWrapper.getContentAsByteArray()));
