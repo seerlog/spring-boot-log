@@ -8,22 +8,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
 public class Create {
     public static String header(RequestWrapper request) {
         StringBuilder headerString = new StringBuilder();
         List<String> headerNames = Collections.list(request.getHeaderNames());
-        for(String headerName : headerNames) {
+        int headerSize = headerNames.size();
+        for(int i = 0; i < headerSize; i++) {
+            String headerName = headerNames.get(i);
             String value = request.getHeader(headerName);
             headerString
                     .append(headerName)
                     .append("=")
                     .append("\"")
                     .append(value)
-                    .append("\"")
-                    .append(", ");
+                    .append("\"");
+            if(i < headerSize - 1) {
+                headerString.append(", ");
+            }
         }
         return headerString.toString();
     }

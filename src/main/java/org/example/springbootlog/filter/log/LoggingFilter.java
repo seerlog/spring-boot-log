@@ -49,10 +49,9 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     private static void logRequest(RequestWrapper request) throws IOException {
-        String queryString = request.getQueryString();
         logger.info("Request : method=[{}], uri=[{}], clientIp=[{}], contentType=[{}], headers=[{}], param=[{}], body=[{}]",
                 request.getMethod(),
-                queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString,
+                request.getRequestURI(),
                 request.getRemoteAddr(),
                 request.getContentType(),
                 Create.header(request),
